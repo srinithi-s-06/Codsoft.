@@ -1,0 +1,79 @@
+contacts = []
+
+while True:
+    print("\nContact Manager")
+    print("1. Add Contact")
+    print("2. View Contact List")
+    print("3. Search Contact")
+    print("4. Update Contact")
+    print("5. Delete Contact")
+    print("6. Exit")
+
+    choice = input("Enter your choice (1-6): ")
+
+    if choice == '1':
+        name = input("Enter name: ")
+        phone = input("Enter phone number: ")
+        email = input("Enter email: ")
+        address = input("Enter address: ")
+        contact = {'name': name, 'phone': phone, 'email': email, 'address': address}
+        contacts.append(contact)
+        print(f"Contact for {name} added.")
+
+    elif choice == '2':
+        if not contacts:
+            print("No contacts available.")
+        else:
+            print("\nContact List:")
+            for index, contact in enumerate(contacts, start=1):
+                print(f"{index}. {contact['name']} - {contact['phone']}")
+
+    elif choice == '3':
+        search_term = input("Enter name or phone number to search: ")
+        found_contacts = [contact for contact in contacts if search_term in contact['name'] or search_term in contact['phone']]
+        if not found_contacts:
+            print("No contact found.")
+        else:
+            for contact in found_contacts:
+                print(f"\nName: {contact['name']}")
+                print(f"Phone: {contact['phone']}")
+                print(f"Email: {contact['email']}")
+                print(f"Address: {contact['address']}")
+
+    elif choice == '4':
+        update_term = input("Enter name or phone number of the contact to update: ")
+        contact_to_update = None
+        for contact in contacts:
+            if update_term in contact['name'] or update_term in contact['phone']:
+                contact_to_update = contact
+                break
+        if contact_to_update:
+            print("Enter new details (leave blank to keep current value):")
+            new_name = input(f"Name ({contact_to_update['name']}): ") or contact_to_update['name']
+            new_phone = input(f"Phone ({contact_to_update['phone']}): ") or contact_to_update['phone']
+            new_email = input(f"Email ({contact_to_update['email']}): ") or contact_to_update['email']
+            new_address = input(f"Address ({contact_to_update['address']}): ") or contact_to_update['address']
+            contact_to_update.update({'name': new_name, 'phone': new_phone, 'email': new_email, 'address': new_address})
+            print("Contact updated.")
+        else:
+            print("Contact not found.")
+
+    elif choice == '5':
+        delete_term = input("Enter name or phone number of the contact to delete: ")
+        contact_to_delete = None
+        for contact in contacts:
+            if delete_term in contact['name'] or delete_term in contact['phone']:
+                contact_to_delete = contact
+                break
+        if contact_to_delete:
+            contacts.remove(contact_to_delete)
+            print("Contact deleted.")
+        else:
+            print("Contact not found.")
+
+    elif choice == '6':
+        print("Exit")
+        break
+
+    else:
+        print("Invalid. Please enter a provided choice between 1 and 6.")
